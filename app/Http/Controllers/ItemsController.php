@@ -828,10 +828,10 @@ class ItemsController extends Controller
 
     public function new_goods_received(Request $request){
         
-        $chk_g = Goods::where('receipt_no',$request->receipt_no)->where('status',1)->select('id')->get();
+        //$chk_g = Goods::where('receipt_no',$request->receipt_no)->where('status',1)->select('id')->get();
         $br = Branches::where('curr',1)->select('id')->orderBy('id','DESC')->limit(1)->first();
             
-        if($chk_g->count() ==0){
+       // if($chk_g->count() ==0){
             
             $prv_g = Goods::select('qty','cost','price','ceil_price','floor_price')->where('item',$request->item)->where('status',1)->orderBy('id','DESC')->limit(1)->first();
             if($prv_g){
@@ -889,10 +889,11 @@ class ItemsController extends Controller
             
             echo json_encode(array('status'=>1));
 
+        /*
         }else{
             echo json_encode(array('status'=>0));
         }
-        
+        */
 
     }
 
