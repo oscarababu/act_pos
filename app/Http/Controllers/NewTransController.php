@@ -62,18 +62,22 @@ class NewTransController extends Controller
 
                             if($chk_ret_sc->count() ==0){
 
-                                $new_sc = new ShoppingCart();
-                                $new_sc->qty = "-" . $new_qty;
-                                $new_sc->item = $item;
-                                $new_sc->price = $price;
-                                $new_sc->branch = $br->id;
-                                $new_sc->catg = Items::select('catg')->find($item)->catg;
-                                $new_sc->tid = $tid;
-                                $new_sc->rid = $tid;
-                                $new_sc->status = 3;
-                                $new_sc->total = "-".$price * $new_qty;
-                                $new_sc->cost = "-".$cost;
-                                $new_sc->time = time();
+
+                                if($request->session()->has('uid')){
+                                    $new_sc = new ShoppingCart();
+                                    $new_sc->qty = "-" . $new_qty;
+                                    $new_sc->item = $item;
+                                    $new_sc->price = $price;
+                                    $new_sc->branch = $br->id;
+                                    $new_sc->catg = Items::select('catg')->find($item)->catg;
+                                    $new_sc->tid = $tid;
+                                    $new_sc->rid = $tid;
+                                    $new_sc->status = 3;
+                                    $new_sc->total = "-".$price * $new_qty;
+                                    $new_sc->cost = "-".$cost;
+                                    $new_sc->time = time();
+
+                                }
                                 
                                 
                                 if($tax_perc !=0){

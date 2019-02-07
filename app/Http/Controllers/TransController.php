@@ -639,6 +639,7 @@ class TransController extends Controller
             }else{
                     //Only Return Tender
                    
+                    
                         $trans = new Transactions();
                         $trans->cash = $sum_total;
                         $trans->change = 0;

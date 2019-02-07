@@ -169,21 +169,25 @@ class Admin extends Controller
             
             $br = Branches::where('curr',1)->select('id')->orderBy('id','DESC')->limit(1)->first();
             
-            $drawer = new Drawer();
-            $drawer->opening_amt = $val;
-            $drawer->start_time = time();
-            $drawer->branch = $br->id;
-            $drawer->user = $request->session()->get('uid');
-            $drawer->status = 'open';
-            $drawer->save();
+            if($request->session()->has('uid')){
 
-            $logs = new Logs();
-            $logs->log_time = time();
-            $logs->desc = 'Opened New Drawer, Opening Amount: ' . $val;
-            $logs->uid = $request->session()->get('uid');
-            $logs->save();
+                $drawer = new Drawer();
+                $drawer->opening_amt = $val;
+                $drawer->start_time = time();
+                $drawer->branch = $br->id;
+                $drawer->user = $request->session()->get('uid');
+                $drawer->status = 'open';
+                $drawer->save();
 
-            return json_encode(array('status'=>1));
+                $logs = new Logs();
+                $logs->log_time = time();
+                $logs->desc = 'Opened New Drawer, Opening Amount: ' . $val;
+                $logs->uid = $request->session()->get('uid');
+                $logs->save();
+
+                return json_encode(array('status'=>1));
+
+            }
 
         }else{
             return json_encode(array('status'=>0));
@@ -198,7 +202,7 @@ class Admin extends Controller
         $first_day_eve = strtotime(date('01-m-Y') . " 23:59:59");
         $last_day_eve = strtotime(date('t-m-Y') . " 23:59:59");
 
-        $res = Drawer::select('id','opening_amt','closing_amt','start_time','stop_time','status','user')->whereBetween('start_time',array($first_day_morn,$last_day_eve))->orderBy('id','DESC')->get();
+        $res = Drawer::select('id','opening_amt','closing_amt','start_time','stop_time','status','user')->limit(31)->orderBy('id','DESC')->get();
         foreach($res as $i=>$val){
             $d[$i]['id'] = $val->id;
             $d[$i]['opening_amt'] = $val->opening_amt;
@@ -908,22 +912,26 @@ class Admin extends Controller
     public function close_drawer(Request $request){
 
         //jtlk28944 - 254747585100
-        
-        $drawer = Drawer::find($request->drawer_id);
-        $drawer->status = "close";
-        $drawer->closing_amt = $request->cls_amt;
-        $drawer->stop_time = time();
-        $drawer->closed_by = $request->session()->get('uid');
-        $drawer->save();
 
-        $logs = new Logs();
-        $logs->log_time = time();
-        $logs->desc = 'Closed Drawer ';
-        $logs->uid = $request->session()->get('uid');
-        $logs->save();
-
+        if($request->session()->has('uid')){
         
-        return json_encode(array('status'=>1));
+            $drawer = Drawer::find($request->drawer_id);
+            $drawer->status = "close";
+            $drawer->closing_amt = $request->cls_amt;
+            $drawer->stop_time = time();
+            $drawer->closed_by = $request->session()->get('uid');
+            $drawer->save();
+
+            $logs = new Logs();
+            $logs->log_time = time();
+            $logs->desc = 'Closed Drawer ';
+            $logs->uid = $request->session()->get('uid');
+            $logs->save();
+
+            
+            return json_encode(array('status'=>1));
+
+        }
         
     }
 

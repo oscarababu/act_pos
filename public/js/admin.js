@@ -515,10 +515,11 @@ let TabTransCustReports = React.createClass({
                 }
     
             });
+            
 
             let ttl_qry = " SELECT * FROM transactions WHERE up_id='"+i+"'";
             $.ajax({
-                url:"http://www.ababuapps.com/up_pos_test/custom_reports.php",
+                url:"http://www.ababuapps.com/up_pos/custom_reports.php",
                 data:{id:i,rprt:"transaction_dets_totals",qry_str:ttl_qry,"_token":cs_token},
                 type:"POST",
                 context: this,
@@ -1532,12 +1533,12 @@ let TabTransReports = React.createClass({
                             let qry = "SELECT * FROM transactions WHERE ";
         
                             $.ajax({
-                                url:"http://www.ababuapps.com/up_pos_test/custom_reports.php",
+                                url:"http://www.ababuapps.com/up_pos/custom_reports.php",
                                 data:{dates:dates,dates_col:"trans_time",qry_str:qry,rprt:"all_transactions","_token":cs_token},
                                 type:"POST",
                                 context: this,
                                 success:function(data){
-                                    //console.log(data);
+                                    console.log(data);
                                     $('.branch_reports_dates').val('');
                                     let res = JSON.parse(data);
                                     let arr = [];
@@ -1553,7 +1554,7 @@ let TabTransReports = React.createClass({
                             let ttl_qry = "SELECT SUM(total) AS total, SUM(total_tax) AS tax, SUM(no_items) AS qty, SUM(discount) AS total_discount, SUM(total_cost) AS total_cost FROM transactions WHERE ";
         
                             $.ajax({
-                                url:"http://www.ababuapps.com/up_pos_test/custom_reports.php",
+                                url:"http://www.ababuapps.com/up_pos/custom_reports.php",
                                 data:{dates:dates,dates_col:"trans_time",qry_str:ttl_qry,rprt:"all_total_transactions","_token":cs_token},
                                 type:"POST",
                                 context: this,
@@ -1582,7 +1583,7 @@ let TabTransReports = React.createClass({
                             let qry = "SELECT * FROM transactions WHERE up_branch='"+id+"'";
         
                             $.ajax({
-                                url:"http://www.ababuapps.com/up_pos_test/custom_reports.php",
+                                url:"http://www.ababuapps.com/up_pos/custom_reports.php",
                                 data:{dates:dates,dates_col:"trans_time",qry_str:qry,rprt:"transactions","_token":cs_token},
                                 type:"POST",
                                 context: this,
@@ -1603,12 +1604,12 @@ let TabTransReports = React.createClass({
                             let ttl_qry = "SELECT SUM(total) AS total, SUM(total_tax) AS tax, SUM(no_items) AS qty, SUM(discount) AS total_discount, SUM(total_cost) AS total_cost FROM transactions WHERE up_branch='"+id+"'";
         
                             $.ajax({
-                                url:"http://www.ababuapps.com/up_pos_test/custom_reports.php",
+                                url:"http://www.ababuapps.com/up_pos/custom_reports.php",
                                 data:{dates:dates,dates_col:"trans_time",qry_str:ttl_qry,rprt:"total_transactions","_token":cs_token},
                                 type:"POST",
                                 context: this,
                                 success:function(data){
-                                    console.log(data);
+                                    //console.log(data);
                                     let res = JSON.parse(data);
                                     this.setState({total_qty:res.qty});
                                     this.setState({totals:res.total});

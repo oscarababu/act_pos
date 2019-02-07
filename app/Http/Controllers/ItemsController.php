@@ -1261,21 +1261,25 @@ class ItemsController extends Controller
 
                 if($qty <= $ttl_qty){
 
-                    $sc = new ShoppingCart();
-                    $sc->qty = $qty;
-                    $sc->item = $item;
-                    $sc->price = $price;
-                    $sc->cost = $cost;
-                    $sc->catg = Items::select('catg')->find($item)->catg;
-                    $sc->total = $price * $qty;
-                    $sc->status = 1;
-                    $sc->tax = $tx * ($price * $qty);
-                    $sc->customer = $customer;
-                    $sc->time = time();
-                    $sc->uid = $request->session()->get('uid');
-                    $sc->type = "tender";
-                    $sc->branch = $br->id;
-                    $sc->save();
+                    if($request->session()->has('uid')){
+
+                        $sc = new ShoppingCart();
+                        $sc->qty = $qty;
+                        $sc->item = $item;
+                        $sc->price = $price;
+                        $sc->cost = $cost;
+                        $sc->catg = Items::select('catg')->find($item)->catg;
+                        $sc->total = $price * $qty;
+                        $sc->status = 1;
+                        $sc->tax = $tx * ($price * $qty);
+                        $sc->customer = $customer;
+                        $sc->time = time();
+                        $sc->uid = $request->session()->get('uid');
+                        $sc->type = "tender";
+                        $sc->branch = $br->id;
+                        $sc->save();
+
+                        }
 
                 }
 
@@ -1292,14 +1296,17 @@ class ItemsController extends Controller
                     
                     if($qty <= $ttl_qty){
                         
-                        $up_sc = ShoppingCart::find($sc_id);
-                        $up_sc->qty = $sc_qty + $qty;
-                        $up_sc->total = ($sc_qty + $qty) * $price;
-                        $up_sc->cost = $sc_cost + $cost;
-                        $up_sc->tax = ($sc_price + $price) * $tx;
-                        $up_sc->save();
+                        if($request->session()->has('uid')){
+
+
+                            $up_sc = ShoppingCart::find($sc_id);
+                            $up_sc->qty = $sc_qty + $qty;
+                            $up_sc->total = ($sc_qty + $qty) * $price;
+                            $up_sc->cost = $sc_cost + $cost;
+                            $up_sc->tax = ($sc_price + $price) * $tx;
+                            $up_sc->save();
     
-                        
+                            }
                     }
                     
                 }
@@ -1326,6 +1333,8 @@ class ItemsController extends Controller
 
                 $chk_acc = Accounts::select('ttl_qty')->where('item',$item)->where('customer',$customer)->orderBy('id','desc')->limit(1)->first();
             
+                if($request->session()->has('uid')){
+
                 $acc = new Accounts();
                 $acc->customer = $customer; 
                 $acc->item = $item; 
@@ -1338,6 +1347,8 @@ class ItemsController extends Controller
                 
                 $acc->save();
 
+                }
+
             }else{
 
                 $up_acc_chk = Accounts::select('id','ttl_qty','qty')->where('status',0)->where('event',$event)->where('item',$item)->where('customer',$customer)->orderBy('id','desc')->limit(1)->get();
@@ -1345,10 +1356,13 @@ class ItemsController extends Controller
                 foreach($up_acc_chk as $val_acc_chk){
 
                     if($val_acc_chk->ttl_qty > 0){
-                        $up_acc = Accounts::find($val_acc_chk->id);
-                        $up_acc->qty = $val_acc_chk->qty - $qty; 
-                        $up_acc->ttl_qty = $val_acc_chk->ttl_qty - $qty;
-                        $up_acc->save();
+
+                        if($request->session()->has('uid')){
+                            $up_acc = Accounts::find($val_acc_chk->id);
+                            $up_acc->qty = $val_acc_chk->qty - $qty; 
+                            $up_acc->ttl_qty = $val_acc_chk->ttl_qty - $qty;
+                            $up_acc->save();
+                        }
                     } 
                 }
 
