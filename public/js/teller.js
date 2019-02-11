@@ -4842,7 +4842,7 @@ let Teller = React.createClass({
                         */}
                         
                         <div className='log_out' onClick={this.logOutBtn} >Log Out</div>
-                        <div className='op_cls_drawer_btn' onClick={this.drawerWindow} >Drawer</div>
+                       {/**  <div className='op_cls_drawer_btn' onClick={this.drawerWindow} >Drawer</div> */} 
                 </div>  
                 
                     <div className="wrap">
@@ -4944,6 +4944,10 @@ let Teller = React.createClass({
                                         <b>C</b>
                                         <div className="xchange_btn_title"><p>Accounts</p></div>
                                     </div>
+                                    <div className="xchange_btn" onClick={this.drawerWindow}>
+                                        <b>Dr</b>
+                                        <div className="xchange_btn_title"><p>Drawer</p></div>
+                                    </div>
                                     
                                     
                                 </div>
@@ -4967,7 +4971,7 @@ let Teller = React.createClass({
                                 </div>
 
                                 <div className="total_qty">
-                                    <p>Total Qty</p>
+                                    <p>Total Quantity</p>
                                     <b>{this.state.totalItemQty}</b>
                                 </div>
                                 <div className="total_vat">
@@ -5047,20 +5051,20 @@ let Teller = React.createClass({
 
                                 <div className="row_tender">
                                     <div className="row_tender_part">
-                                        <li><input type='button' className='btn_mpesa_sale' onClick={this.saleBtn.bind(this,'mpesa')} value='MPESA' /></li>
+                                        <li><input type='button' className='btn_account_sale' onClick={this.saleBtn.bind(this,'mpesa')} value='MPESA' /></li>
                                     </div> 
                                     <div className="row_tender_part">
-                                    <li><input type='button' className='btn_card_sale' onClick={this.saleBtn.bind(this,'cheque')} value='CHEQUE' /></li>
+                                    <li><input type='button' className='btn_account_sale' onClick={this.saleBtn.bind(this,'cheque')} value='CHEQUE' /></li>
                                     </div> 
                                     
                                 </div> 
 
                                 <div className="row_tender">
                                     <div className="row_tender_part">
-                                        <li><input type='button' className='btn_card_sale' onClick={this.saleBtn.bind(this,'card')} value='CARD TENDER' /></li>
+                                        <li><input type='button' className='btn_account_sale' onClick={this.saleBtn.bind(this,'card')} value='CARD TENDER' /></li>
                                     </div> 
                                     <div className="row_tender_part">
-                                    <li><input type='button' className='btn_return_sale' onClick={this.saleBtn.bind(this,'return')} value='RETURN' /></li>
+                                    <li><input type='button' className='btn_account_sale' onClick={this.saleBtn.bind(this,'return')} value='RETURN' /></li>
                                     </div> 
                                     
                                 </div> 
@@ -5076,7 +5080,7 @@ let Teller = React.createClass({
                                     </div>
                                    
                                     <div className="row_tender_part">
-                                        <li><input type='button' className='btn_mpesa_sale' onClick={this.saleBtn.bind(this,'split')} value='SPLIT' /></li>
+                                        <li><input type='button' className='btn_account_sale' onClick={this.saleBtn.bind(this,'split')} value='SPLIT' /></li>
                                     </div> 
                                     
                                 </div> 
@@ -5736,7 +5740,12 @@ let Teller = React.createClass({
                    
 
                     <div className = "login">
+                        
                         <div className="inside">
+                            <div className="logo">
+
+                        
+                            </div>
                             <div className="message"></div>
                         <ul>
                         <li><input type="text" placeholder="Username" id="username_ipt" onKeyPress={this.loginLogic} /></li>
