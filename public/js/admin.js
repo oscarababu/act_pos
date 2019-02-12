@@ -4217,8 +4217,8 @@ let TabItemReports = React.createClass({
                 let res = JSON.parse(data);
                
                 //res.reorder_level.replace(",","")
-                $('.txt_edit_item_code').val(res.look_up);
-                $('.txt_edit_manf_code').val(res.code_no);
+                $('.txt_edit_item_code').val(res.code_no);
+                $('.txt_edit_manf_code').val(res.look_up);
                 $('.txt_edit_item_title').val(res.item_desc);
                 
                 $('.txt_edit_price').val(res.sell_price.replace(",",""));

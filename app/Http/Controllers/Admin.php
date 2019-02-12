@@ -408,8 +408,8 @@ class Admin extends Controller
         if($item_chk->count() ==0){
 
             $item = new Items();
-            $item->look_up = $request->code;
-            $item->code_no = $request->m_code;
+            $item->code_no = $request->code;
+            $item->look_up = $request->m_code;
             $item->item_desc = strtolower($request->title);
             $item->reorder_level = $request->re_order_level;
             $item->tax = $request->tax;
