@@ -107,6 +107,7 @@ Route::get('/download_goods_xls', 'ItemsController@download_goods_xls');
 
 Route::post('/delete_from_goods', 'ItemsController@delete_from_goods');
 
+Route::post('/search_goods_rprt', 'ItemsController@search_goods_rprt');
 
 
 

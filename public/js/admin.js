@@ -6931,12 +6931,12 @@ let TabGoodsReports = React.createClass({
 
             if(dates.indexOf("to")){
                 $.ajax({
-                    url:server_url+"/search_goods",
+                    url:server_url+"/search_goods_rprt",
                     data:{dates:dates,"_token":cs_token},
                     type:"POST",
                     context: this,
                     success:function(data){
-                        //console.log(data); 
+                        console.log(data); 
                         let arr = [];
                         let res = JSON.parse(data);                      
                         $.each(res,function(index,value){

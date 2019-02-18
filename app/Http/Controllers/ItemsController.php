@@ -939,6 +939,40 @@ class ItemsController extends Controller
         echo json_encode($d);
     }
 
+    public function search_goods_rprt(Request $request){
+
+         $exp_dates = explode("to",$request->dates);
+         $from = strtotime(str_replace(' ', '', $exp_dates[0]). " 06:00:00");
+         $to = strtotime(str_replace(' ', '', $exp_dates[1]). " 23:59:59");
+         
+        $res = Goods::select('id','up_id','date_received','item','received_by','status','receipt_no','qty','cost','price','ceil_price','floor_price')->whereBetween('date_received',array($from,$to))->orderBy('id','desc')->get();
+        
+        if($res->count() > 0){
+            foreach($res as $i=>$val){
+                $d[$i]['id'] = $val->id;
+                $d[$i]['date_received'] = ($val->date_received) ? date("d-m-y",$val->date_received) : '';
+                $d[$i]['item'] = ($val->item) ? Items::find($val->item)->item_desc : "";
+                //$d[$i]['item'] = $val->item;
+               
+                $d[$i]['received_by'] = ($val->received_by) ? User::find($val->received_by)->lname : '';
+                $d[$i]['receipt_no'] = $val->receipt_no;
+                $d[$i]['status'] = $val->status;
+                $d[$i]['up_id'] = $val->up_id;
+                $d[$i]['qty'] = number_format($val->qty);
+                $d[$i]['cost'] = number_format($val->cost);
+                $d[$i]['price'] = number_format($val->price);
+                $d[$i]['ceil_price'] = number_format($val->ceil_price);
+                $d[$i]['floor_price'] = number_format($val->floor_price);
+            }
+
+        }else{
+            $d = [];
+        }
+        
+
+        echo json_encode($d);
+    }
+
     public function goods_transfer_reports_data(Request $request){
         $res = Goods::select('id','status','transfer_received_by','transfer_by','transfer_date','branch','from_branch','date_received','item','received_by','delivery_note_no','receipt_no','qty','cost','price','ceil_price','floor_price')->orderBy('id','desc')->limit(15)->get();
         $br = Branches::where('curr',1)->select('id')->orderBy('id','DESC')->limit(1)->first();
